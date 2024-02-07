@@ -1,0 +1,13 @@
+name: Ours
+
+model:
+  hidden_size: 512
+  num_gcn: 2
+
+train:
+  epochs_num: 20
+  batch_size: 40
+  ensemble_num: 3
+
+test:
+  batch_size: 40

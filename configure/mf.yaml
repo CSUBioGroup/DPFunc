@@ -1,0 +1,22 @@
+name: mf
+model_path: models
+mlb: ./mlb/mf_go.mlb
+results: ./results
+
+base:
+  interpro_whole: /public/home/hpc224701029/walker/function/data/PDB/pdb_interpro_whole_protein/{}.pkl
+
+train:
+  name: train
+  pid_list_file: /public/home/hpc224701029/walker/function/data_list/mf_train_used_pid_list.pkl
+  pid_go_file: /public/home/hpc224701029/walker/function/data_list/train_mf_go.txt
+  pid_pdb_file: /public/home/hpc224701029/walker/function/data_list/PDB/graph_feature/mf_train_whole_pdb_part{}.pkl
+  train_file_count: 7
+  interpro_file: /public/home/hpc224701029/walker/function/data_list/mf_train_interpro.pkl
+
+test:
+  name: test
+  pid_list_file: /public/home/hpc224701029/walker/function/data_list/mf_test_used_pid_list.pkl
+  pid_go_file: /public/home/hpc224701029/walker/function/data_list/test_mf_go.txt
+  pid_pdb_file: /public/home/hpc224701029/walker/function/data_list/PDB/graph_feature/mf_test_whole_pdb_part0.pkl
+  interpro_file: /public/home/hpc224701029/walker/function/data_list/mf_test_interpro.pkl

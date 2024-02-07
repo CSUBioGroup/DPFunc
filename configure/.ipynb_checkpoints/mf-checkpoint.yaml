@@ -1,0 +1,36 @@
+name: mf
+model_path: models
+mlb: ./mlb/mf_go.mlb
+results: ./results
+
+base:
+  interpro_feature: /public/home/hpc224701029/walker/function/data/pid_interpro.npz
+  pdb_feature: /public/home/hpc224701029/walker/function/data/pre_pdb_embeddings.pkl
+  esm_feature: /public/home/hpc224701029/walker/function/data/esm_31_embeddings.pkl
+  pdb_points: /public/home/hpc224701029/walker/function/data/pdb_points.pkl
+  interpro_section: /public/home/hpc224701029/walker/function/data/protein_interpro_section.pkl
+  residue_feature: /public/home/hpc224701029/walker/function/data/PDB/part_result_esm_residue_level/result_part/pdb_residue_esm_embeddings_part{}.pkl
+  interpro_ssp: /public/home/hpc224701029/walker/function/data/PDB/pdb_interpro_single_protein/{}.pkl
+  interpro_whole: /public/home/hpc224701029/walker/function/data/PDB/pdb_interpro_whole_protein/{}.pkl
+
+train:
+  name: train
+  pid_list_file: /public/home/hpc224701029/walker/function/data/mf_train_used_pid_list.pkl
+  pid_go_file: /public/home/hpc224701029/walker/function/data/mf_train_go.txt
+  pid_pdb_file: /public/home/hpc224701029/walker/function/data/PDB/graph_feature/mf_train_whole_pdb_part{}.pkl
+  train_file_count: 7
+  interpro_file: /public/home/hpc224701029/walker/function/data/mf_train_interpro.pkl
+
+valid:
+  name: valid
+  pid_list_file: /public/home/hpc224701029/walker/function/data/mf_test1_used_pid_list.pkl
+  pid_go_file: /public/home/hpc224701029/walker/function/data/mf_test1_go.txt
+  pid_pdb_file: /public/home/hpc224701029/walker/function/data/PDB/graph_feature/mf_test1_whole_pdb_part0.pkl
+  interpro_file: /public/home/hpc224701029/walker/function/data/mf_test1_interpro.pkl
+  
+test:
+  name: test
+  pid_list_file: /public/home/hpc224701029/walker/function/data/mf_test2_used_pid_list.pkl
+  pid_go_file: /public/home/hpc224701029/walker/function/data/mf_test2_go.txt
+  pid_pdb_file: /public/home/hpc224701029/walker/function/data/PDB/graph_feature/mf_test2_whole_pdb_part0.pkl
+  interpro_file: /public/home/hpc224701029/walker/function/data/mf_test2_interpro.pkl

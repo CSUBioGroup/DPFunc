@@ -1,0 +1,36 @@
+name: cc
+model_path: models
+mlb: ./mlb/cc_go.mlb
+results: ./results
+
+base:
+  interpro_feature: /home/wangwk/Function/walker/data/pid_interpro.npz
+  pdb_feature: /home/wangwk/Function/walker/data/pre_pdb_embeddings.pkl
+  esm_feature: /home/wangwk/Function/walker/data/esm_31_embeddings.pkl
+  pdb_points: /home/wangwk/Function/walker/data/pdb_points.pkl
+  interpro_section: /home/wangwk/Function/walker/data/protein_interpro_section.pkl
+  residue_feature: /home/wangwk/Function/walker/data/PDB/part_result_esm_residue_level/result_part/pdb_residue_esm_embeddings_part{}.pkl
+
+network:
+  pid_list: /home/wangwk/Function/walker/data/pid_id.pkl
+  ppi: /home/wangwk/Function/walker/data/nofilter_ppi_dgl_top_100
+  blast_knn: /home/wangwk/Function/walker/data/blast_ppi_dgl_top_500
+
+train:
+  name: train
+  pid_list_file: /home/wangwk/Function/walker/data/cc_train_used_pid_list.pkl
+  pid_go_file: /home/wangwk/Function/walker/data/cc_train_go.txt
+  pid_pdb_file: /home/wangwk/Function/walker/data/PDB/graph_feature/cc_train_interpro_section_pdb_part{}.pkl
+  train_file_count: 9
+
+valid:
+  name: valid
+  pid_list_file: /home/wangwk/Function/walker/data/cc_test1_used_pid_list.pkl
+  pid_go_file: /home/wangwk/Function/walker/data/cc_test1_go.txt
+  pid_pdb_file: /home/wangwk/Function/walker/data/PDB/graph_feature/cc_test1_interpro_section_pdb_part0.pkl
+  
+test:
+  name: test
+  pid_list_file: /home/wangwk/Function/walker/data/cc_test2_used_pid_list.pkl
+  pid_go_file: /home/wangwk/Function/walker/data/cc_test2_go.txt
+  pid_pdb_file: /home/wangwk/Function/walker/data/PDB/graph_feature/cc_test2_interpro_section_pdb_part0.pkl
