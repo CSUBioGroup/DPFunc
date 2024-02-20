@@ -1,8 +1,8 @@
 # DeepDoguest
  Accurately predicting protein function via deep learning with domain-guided structure information
 
-#### Prepare data
-Before you train our model, you need prepare following (train/valid/test) data files: 
+## Prepare data
+If you want to train our model on your own data, you need prepare (train/valid/test) data files as follows, or you can directly download our data from `./data/download_link.txt` and skip this step: 
 - protein list
 - protein pre-trained embeddings
 - predicted or native strucutre graph
@@ -43,7 +43,7 @@ python ./DataProcess/process_interpro.py
 
 8. Construct your own configure file based on previous data. (several examples can be obtained from `./configure/{mf/cc/bp}.yaml`)
 
-#### Train our model on your own data
+## Train our model on your own data
 If you have prepared the data, you can train our model on your data as follows:
 ```
 python DeepDoguest_main.py -d mf -n 0 -e 15 -p temp_model
