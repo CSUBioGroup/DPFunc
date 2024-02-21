@@ -1,1 +1,1 @@
-All BP data and PDB related data (residue features and graph strucutre of BP,MF,CC) are too large and can be downloaded from .
+All BP data and PDB related data (residue features and graph strucutre of BP,MF,CC) are too large (about 300GB), and the download link will be updated as soon as the file upload finishes.
