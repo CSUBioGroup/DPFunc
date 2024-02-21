@@ -1,1 +1,10 @@
-All BP data and PDB related data (residue features and graph strucutre of BP,MF,CC) are too large (about 300GB), and the download link will be updated as soon as the file upload finishes.
+All BP data and PDB related data (residue features and graph strucutre of BP,MF,CC) are too large (about 300GB), and the download link is https://csuligroup.com/DeepDoguest/data.
+You can use the following command to download them: wget https://csuligroup.com/DeepDoguest/data
+
+Note:
+There are seven sub-compressed files, you need to download all of them, merge them and then unzip them.
+data_part.tar.gz00 ~ data_part.tar.gz06, the size of each file is about 47GB and the totol size is about 300GB.
+
+The merge and unzip command:
+cat data_part.tar.gz* > data.tar.gz
+tar -zxvf data.tar.gz
