@@ -55,7 +55,7 @@ Notably, to generate `pid_pdb_file` and `interpro_file`, you need complete the f
     ```
 
 
-### Train our model on your own data
+## Train our model on your own data
 If you have prepared the data, you can train our model on your data as follows (Ensure that your configure file is right):
 ```
 python DPFunc_main.py -d mf -n 0 -e 15 -p temp_model
