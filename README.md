@@ -4,6 +4,8 @@
 ## Usage
 Here we provide instructions for two use cases: (1) Testing our trained model on your data. (2) Retraining our model on your data.
 
+Note: This README is still in progress and we are trying to complete it within the next two weeks. If you encounter any bugs or issues, feel free to contact us.
+
 ## Test our model on your data
 
 ### Model preparation
