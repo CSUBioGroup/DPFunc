@@ -1,5 +1,5 @@
 name: mf
-model_path: models
+model_path: save_models
 mlb: ./mlb/mf_go.mlb
 results: ./results
 

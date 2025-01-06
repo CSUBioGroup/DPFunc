@@ -34,11 +34,13 @@ def read_pdb(pdb_file):
     return points
 
 @click.command()
-@click.option('-i', '--sequence-file', type=click.STRING)
+@click.option('-i', '--pid-list-file', type=click.STRING)
 @click.option('-o', '--output-file', type=click.STRING)
 
-def main(sequence_file, output_file):
-    pid_list = get_pid_list(sequence_file)
+def main(pid_list_file, output_file):
+    with open(pid_list_file, 'rb') as fr:
+        pid_list = pkl.load(fr)
+    
     pdb_points_info = {}
     for protein in tqdm(pid_list):
         pdb_file = './data/PDB/PDB_folder/{0}.pdb'.format(protein)

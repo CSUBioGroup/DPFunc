@@ -37,13 +37,13 @@ def get_inter_whole_data(pid_list, interpro_file_path, save_file):
     return interpro_matrix
 
 if __name__=='__main__':
-    for ont in ['bp', 'mf', 'cc']:
-        for tag in ['train', 'test']:
-            pid_list = read_pkl('/public/home/hpc224701029/walker/function/data_list/{}_{}_used_pid_list.pkl'.format(ont, tag))
+    for ont in ['mf']:
+        for tag in ['test']:
+            pid_list = read_pkl('./data/{}_{}_used_pid_list.pkl'.format(ont, tag))
 
-            interpro_file_path = '/public/home/hpc224701029/walker/function/data/PDB/pdb_interpro_whole_protein/{}.pkl'
+            interpro_file_path = './data/PDB/pdb_interpro_whole_protein/{}.pkl'
 
-            save_file = '/public/home/hpc224701029/walker/function/data_list/{}_{}_interpro.pkl'.format(ont, tag)
+            save_file = './data/{}_{}_interpro.pkl'.format(ont, tag)
 
             print('{} - {}'.format(ont, tag))
             get_inter_whole_data(pid_list, interpro_file_path, save_file)
