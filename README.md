@@ -8,6 +8,12 @@ If you encounter any bugs or issues, feel free to contact us.
 
 ## Train DPFunc
 
+### Key Environment
+```
+Pytorch: 1.12.0
+DGL: 1.1.0
+```
+
 ### Data Download
 You can download our models from `./data/download_link.txt` and get our trained model.
 
