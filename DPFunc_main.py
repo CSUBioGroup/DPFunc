@@ -7,15 +7,16 @@ import torch
 import numpy as np
 from dgl.dataloading import GraphDataLoader
 
-from DeepDoguest.data_utils import get_pdb_data, get_mlb, get_inter_whole_data
-from DeepDoguest.models import combine_inter_model
-from DeepDoguest.objective import AverageMeter
-from DeepDoguest.model_utils import test_performance_gnn_inter, merge_result, FocalLoss
-from DeepDoguest.evaluation import new_compute_performance_deepgoplus
+from DPFunc.data_utils import get_pdb_data, get_mlb, get_inter_whole_data
+from DPFunc.models import combine_inter_model
+from DPFunc.objective import AverageMeter
+from DPFunc.model_utils import test_performance_gnn_inter, merge_result, FocalLoss
+from DPFunc.evaluation import new_compute_performance_deepgoplus
 
 import os
 import pickle as pkl
 import click
+from tqdm.auto import tqdm
 
 @click.command()
 @click.option('-d', '--data-cnf', type=click.Choice(['bp', 'mf', 'cc']))
@@ -34,10 +35,9 @@ def main(data_cnf, gpu_number, epoch_number, pre_name):
     run_name = F'{model_name}-{data_name}'
     logger.info('run_name: {}'.format(run_name))
 
-    model_cnf['model']['model_path'] = Path(data_cnf['model_path'])/F'{run_name}'
     data_cnf['mlb'] = Path(data_cnf['mlb'])
     data_cnf['results'] = Path(data_cnf['results'])
-    logger.info(F'Model: {model_name}, Path: {model_cnf["model"]["model_path"]}, Dataset: {data_name}')
+    logger.info(F'Model: {model_name}, Dataset: {data_name}')
 
     train_pid_list, train_graph, train_go = get_pdb_data(pid_list_file = data_cnf['train']['pid_list_file'],
                                                          pdb_graph_file = data_cnf['train']['pid_pdb_file'],
@@ -107,7 +107,9 @@ def main(data_cnf, gpu_number, epoch_number, pre_name):
     del train_graph
     del test_graph
     del valid_graph
-
+    
+    logger.info('Loading Data & Model')
+    
     model = combine_inter_model(inter_size=train_interpro.shape[1], 
                                 inter_hid=1280, 
                                 graph_size=1280, 
@@ -122,7 +124,7 @@ def main(data_cnf, gpu_number, epoch_number, pre_name):
     for e in range(epoch_number):
         model.train()
         train_loss_vals = AverageMeter()
-        for batched_graph, sample_idx, labels in train_dataloader:
+        for batched_graph, sample_idx, labels in tqdm(train_dataloader, leave=False):
             batched_graph = batched_graph.to(device)
             labels = labels.to(device)
             inter_features = (torch.from_numpy(train_interpro[sample_idx].indices).to(device).long(), 

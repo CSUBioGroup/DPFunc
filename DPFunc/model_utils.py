@@ -121,7 +121,7 @@ def test_performance_gnn_inter(model, dataloader, test_pid_list, test_interpro, 
         with open(save_file, 'wb') as fw:
             pkl.dump(df, fw)
     if evaluate:
-        go_file = '/public/home/hpc224701029/walker/function/data/go.obo'
+        go_file = './data/go.obo'
         
         new_fmax, new_aupr, new_t = new_compute_performance_deepgoplus(df,go_file,ont,with_relations)
 

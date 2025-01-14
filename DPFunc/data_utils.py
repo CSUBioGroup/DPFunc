@@ -62,7 +62,7 @@ def get_inter_whole_data(pid_list, interpro_file_path, save_file):
             cols += vals_idx.tolist()
             data += val.tolist()
     
-    col_nodes = 22369
+    col_nodes = 22369 # this value should be the same as the length of './data/inter_idx.pkl' 
     interpro_matrix = csr_matrix((data, (rows, cols)), shape=(len(pid_list), col_nodes))
     with open(save_file, 'wb') as fw:
         pkl.dump(interpro_matrix, fw)

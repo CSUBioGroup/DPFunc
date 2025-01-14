@@ -16,6 +16,7 @@ from DPFunc.evaluation import new_compute_performance_deepgoplus
 import os
 import pickle as pkl
 import click
+from tqdm.auto import tqdm
 
 @click.command()
 @click.option('-d', '--data-cnf', type=click.Choice(['bp', 'mf', 'cc']))
@@ -23,14 +24,14 @@ import click
 @click.option('-p', '--pre-name', type=click.STRING, default='temp_model')
 
 
-def main(data_cnf, gpu_number, pre_name):
+def main(data_cnf, gpu_number, epoch_number, pre_name):
     yaml = YAML(typ='safe')
     ont = data_cnf
     data_cnf, model_cnf = yaml.load(Path('./configure/{}.yaml'.format(data_cnf))), yaml.load(Path('./configure/dgg.yaml'))
     device = torch.device('cuda:{}'.format(gpu_number))
 
     data_name, model_name = data_cnf['name'], model_cnf['name'] 
-    run_name = F'{model_name}-{data_name}' # DPFunc-MF/CC/BP
+    run_name = F'{model_name}-{data_name}'
     logger.info('run_name: {}'.format(run_name))
 
     data_cnf['mlb'] = Path(data_cnf['mlb'])
@@ -48,7 +49,7 @@ def main(data_cnf, gpu_number, pre_name):
     assert len(test_pid_list)==test_interpro.shape[0]
     assert len(test_pid_list)==len(test_go)
 
-    mlb = get_mlb(Path(data_cnf['mlb']))
+    mlb = joblib.load(Path(data_cnf['mlb']))
     labels_num = len(mlb.classes_)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
@@ -59,7 +60,7 @@ def main(data_cnf, gpu_number, pre_name):
     for idx, goid in enumerate(mlb.classes_):
         idx_goid[idx] = goid
         goid_idx[goid] = idx
-    
+
     test_data = [(test_graph[i], i, test_y[i]) for i in range(len(test_y))]
     test_dataloader = GraphDataLoader(
         test_data,
@@ -67,7 +68,11 @@ def main(data_cnf, gpu_number, pre_name):
         drop_last=False,
         shuffle=False)
 
-    model = combine_inter_model(inter_size=test_interpro.shape[1], 
+    del valid_graph
+    
+    logger.info('Loading Data & Model')
+    
+    model = combine_inter_model(inter_size=train_interpro.shape[1], 
                                 inter_hid=1280, 
                                 graph_size=1280, 
                                 graph_hid=1280, 
