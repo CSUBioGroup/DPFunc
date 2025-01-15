@@ -83,7 +83,8 @@ arguments:
 
 ### Test
 If you want to test proteins on trained models, you can easily comment out the training and validation code, as shown in `DPFunc_pred.py`
-
+### Model Download
+You can also download our trained model from: https://drive.google.com/file/d/1V0VTFTiB29ilbAIOZn0okBQWPlbOI3wN/view?usp=drive_link
 
 ## Contact
 Please feel free to contact us for any further questions.
