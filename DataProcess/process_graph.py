@@ -30,47 +30,47 @@ def get_dis(point1, point2):
     return math.sqrt(dis_x*dis_x + dis_y*dis_y + dis_z*dis_z)
 
 def get_amino_feature(amino):
-    all_for_assign = np.loadtxt("all_assign.txt")
+    # all_for_assign = np.loadtxt("all_assign.txt")
     if amino == 'ALA':
-        return 0, all_for_assign[0,:]
+        return 0
     elif amino == 'CYS':
-        return 1, all_for_assign[1,:]
+        return 1
     elif amino == 'ASP':
-        return 2, all_for_assign[2,:]
+        return 2
     elif amino == 'GLU':
-        return 3, all_for_assign[3,:]
+        return 3
     elif amino == 'PHE':
-        return 4, all_for_assign[4,:]
+        return 4
     elif amino == 'GLY':
-        return 5, all_for_assign[5,:]
+        return 5
     elif amino == 'HIS':
-        return 6, all_for_assign[6,:]
+        return 6
     elif amino == 'ILE':
-        return 7, all_for_assign[7,:]
+        return 7
     elif amino == 'LYS':
-        return 8, all_for_assign[8,:]
+        return 8
     elif amino == 'LEU':
-        return 9, all_for_assign[9,:]
+        return 9
     elif amino == 'MET':
-        return 10, all_for_assign[10,:]
+        return 10
     elif amino == 'ASN':
-        return 11, all_for_assign[11,:]
+        return 11
     elif amino == 'PRO':
-        return 12, all_for_assign[12,:]
+        return 12
     elif amino == 'GLN':
-        return 13, all_for_assign[13,:]
+        return 13
     elif amino == 'ARG':
-        return 14, all_for_assign[14,:]
+        return 14
     elif amino == 'SER':
-        return 15, all_for_assign[15,:]
+        return 15
     elif amino == 'THR':
-        return 16, all_for_assign[16,:]
+        return 16
     elif amino == 'VAL':
-        return 17, all_for_assign[17,:]
+        return 17
     elif amino == 'TRP':
-        return 18, all_for_assign[18,:]
+        return 18
     elif amino == 'TYR':
-        return 19, all_for_assign[19,:]
+        return 19
     else:
         print("Amino False!")
 
@@ -110,7 +110,7 @@ def get_whole_pdb_graph(pdb_points, pid_list, map_pid_esm_file, residue_features
         graph.ndata['aa'] = torch.zeros(graph.num_nodes(), 20)
         for node_id in range(len(points)):
             amino = points[node_id][3]
-            amino_id, _ = get_amino_feature(amino)
+            amino_id = get_amino_feature(amino)
 
             graph.ndata['x'][node_id] = torch.from_numpy(esm_tp[pid][31][node_id])
 
