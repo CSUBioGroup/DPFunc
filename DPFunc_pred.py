@@ -17,6 +17,7 @@ import os
 import pickle as pkl
 import click
 from tqdm.auto import tqdm
+import joblib
 
 @click.command()
 @click.option('-d', '--data-cnf', type=click.Choice(['bp', 'mf', 'cc']))
@@ -24,7 +25,7 @@ from tqdm.auto import tqdm
 @click.option('-p', '--pre-name', type=click.STRING, default='temp_model')
 
 
-def main(data_cnf, gpu_number, epoch_number, pre_name):
+def main(data_cnf, gpu_number, pre_name):
     yaml = YAML(typ='safe')
     ont = data_cnf
     data_cnf, model_cnf = yaml.load(Path('./configure/{}.yaml'.format(data_cnf))), yaml.load(Path('./configure/dgg.yaml'))
@@ -67,12 +68,10 @@ def main(data_cnf, gpu_number, epoch_number, pre_name):
         batch_size=64,
         drop_last=False,
         shuffle=False)
-
-    del valid_graph
     
     logger.info('Loading Data & Model')
     
-    model = combine_inter_model(inter_size=train_interpro.shape[1], 
+    model = combine_inter_model(inter_size=test_interpro.shape[1], 
                                 inter_hid=1280, 
                                 graph_size=1280, 
                                 graph_hid=1280, 
