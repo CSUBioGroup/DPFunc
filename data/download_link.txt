@@ -1,11 +1,11 @@
 All BP data and PDB related data (residue features and graph strucutre of BP,MF,CC) are too large (about 300GB). You can use the following command to download them:
-wget https://csuligroup.com/DeepDoguest/data/0 -O data_part.tar.gz00 ;
-wget https://csuligroup.com/DeepDoguest/data/1 -O data_part.tar.gz01 ;
-wget https://csuligroup.com/DeepDoguest/data/2 -O data_part.tar.gz02 ;
-wget https://csuligroup.com/DeepDoguest/data/3 -O data_part.tar.gz03 ;
-wget https://csuligroup.com/DeepDoguest/data/4 -O data_part.tar.gz04 ; 
-wget https://csuligroup.com/DeepDoguest/data/5 -O data_part.tar.gz05 ;
-wget https://csuligroup.com/DeepDoguest/data/6 -O data_part.tar.gz06 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/0 -O data_part.tar.gz00 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/1 -O data_part.tar.gz01 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/2 -O data_part.tar.gz02 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/3 -O data_part.tar.gz03 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/4 -O data_part.tar.gz04 ; 
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/5 -O data_part.tar.gz05 ;
+wget https://bioinformatics.csu.edu.cn/DeepDoguest/data/6 -O data_part.tar.gz06 ;
 
 Note:
 There are seven sub-compressed files, you need to download all of them, merge them and then unzip them.

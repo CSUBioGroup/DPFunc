@@ -31,9 +31,7 @@ def main(data_cnf, gpu_number, pre_name):
     data_cnf, model_cnf = yaml.load(Path('./configure/{}.yaml'.format(data_cnf))), yaml.load(Path('./configure/dgg.yaml'))
     device = torch.device('cuda:{}'.format(gpu_number))
 
-    data_name, model_name = data_cnf['name'], model_cnf['name'] 
-    run_name = F'{model_name}-{data_name}'
-    logger.info('run_name: {}'.format(run_name))
+    data_name, model_name = data_cnf['name'], model_cnf['name']
 
     data_cnf['mlb'] = Path(data_cnf['mlb'])
     data_cnf['results'] = Path(data_cnf['results'])
