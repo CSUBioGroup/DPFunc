@@ -1,12 +1,12 @@
 # DPFunc
- Accurately predicting protein function via deep learning with domain-guided structure information
+Accurately predicting protein function via deep learning with domain-guided structure information.
 
-## Usage
-Here we provide instructions for two use cases: (1) Retraining our model on our or your data. (2) Testing data on trained models.
 
-If you encounter any bugs or issues, feel free to contact us.
 
 ## 🚀 Latest Updates
+
+**[March 2026] Data File Update**: The recommended workflow is now the standalone scripted pipeline under `DPFunc_demo_pipeline/`.
+Legacy long-form guidance (old tutorial/training sections) has been removed from this README.
 
 **[December 2025] Data File Update**: As the old download links currently is unavailable, we have updated the dataset used in DPFunc paper here: https://drive.google.com/file/d/1qrxbkk450GJzhVfqnAN9Ms798owrq96n/view?usp=sharing​. It consists of protein id, sequences and corresponding GO terms. You can follow our tutorial to process AF-PDB, InterPro and ESM representations, so that you can retrain our model.
 
@@ -14,131 +14,61 @@ If you encounter any bugs or issues, feel free to contact us.
 
 ---
 
-## Data Processing Tutorial Update
+## Dataset and Model Files
 
-We have updated our data processing pipeline with a comprehensive tutorial! Instead of following the previous complex and redundant data generation process, you can now easily prepare all required data step-by-step using our new Jupyter notebook tutorial.
+### 1. Benchmark Dataset (updated)
+The dataset used in the DPFunc paper (protein IDs, sequences, GO terms):
+- https://drive.google.com/file/d/1qrxbkk450GJzhVfqnAN9Ms798owrq96n/view?usp=sharing
 
-### New Streamlined Data Processing
+### 2. Trained Model Weights
+Pretrained DPFunc model weights:
+- https://drive.google.com/file/d/1V0VTFTiB29ilbAIOZn0okBQWPlbOI3wN/view?usp=drive_link
 
-**📍 Location**: [`./DataProcess/Process_data.ipynb`](DataProcess/Process_data.ipynb)
+## Updated Usage (Recommended)
+Use the standalone pipeline in:
+- Chinese guide: `./DPFunc_demo_pipeline/README_zh.md`
+- English guide: `./DPFunc_demo_pipeline/README.md`
 
-This notebook provides a complete walkthrough from raw data to model-ready datasets using the latest benchmark data as examples.
+Typical workflow:
+1. Prepare a manifest (`templates/manifest_template.tsv` format).
+2. Build a standalone workspace with `build_data_demo.py`.
+3. Train or predict with `run_dpfunc.py`.
 
-### Sample Data Provided
+Example commands:
 
-We have included sample benchmark datasets in [`./DataProcess/data_dpfunc/`](DataProcess/data_dpfunc/) to help you get started quickly. 
-
-**Citation Requirements**: If you use these benchmark datasets in your research, please cite the following publications:
-
-1. Wang W, Shuai Y, Zeng M, et al. DPFunc: accurately predicting protein function via deep learning with domain-guided structure information[J]. Nature Communications, 2025, 16(1): 70.
-
-2. DPGOK: A deep learning-based method for protein function prediction by fusing GO knowledge with protein features. (Submitted, under review). GitHub: https://github.com/CSUBioGroup/DPGOK.
-
-**Note**: PDB structure files are not included due to size constraints. Please download and place the required PDB files in the corresponding folders as indicated in the tutorial.
-
-### Getting Started
-
-1. **Follow the Tutorial**: Open [`./DataProcess/Process_data.ipynb`](DataProcess/Process_data.ipynb) and execute cells step-by-step
-2. **Prepare PDB Files**: Download required PDB structure files and place them in the specified directories
-3. **Run Processing**: The notebook will guide you through generating all necessary data files for training and prediction
-
-### What You'll Generate
-
-The tutorial will help you create:
-- Protein ID lists and GO annotations
-- PDB graph structures with features
-- InterPro domain annotations
-- Multi-label binarizer files
-
-This new approach significantly simplifies the data preparation process and ensures reproducibility across different environments. After this step, you can train or predict DPFunc!
-
-## Train DPFunc
-
-### Key Environment
-```
-Pytorch: 1.12.0
-DGL: 1.1.0
+```bash
+python DPFunc_demo_pipeline/scripts/build_data_demo.py \
+  --manifest /path/to/your_manifest.tsv \
+  --workspace /path/to/demo_workspace_mf \
+  --ontology mf \
+  --pdb-dir /path/to/pdb_folder \
+  --inter-idx ./data/inter_idx.pkl \
+  --go-obo /path/to/go.obo
 ```
 
-### Data Download
-You can download our models from `./data/download_link.txt` and get our trained model.
-
-### Data Construction
-You can following our newest data process mentioned above and ingore this part now!
-
-You should prepare your configure file as requirement (see `./configure/[mf/cc/bp].yaml` as an example), following items must be clarified:
-```
-name: mf   # The ontology you want to choose: mf/bp/cc. Make sure it matches the file name of configuration file (mf.yaml/bp.yaml/cc.yaml).
-mlb: ./mlb/mf_go.mlb  # The predicted labels used in DPFunc, which is generated automatically during training.
-results: ./results  # The directory to save predicted results of test data.
-
-base:
-  interpro_whole: ./data/interpro/{}.pkl  # The interpro files of proteins. Each interpro file corresponds an array with x columns, where each column is an interpro property (IPR...), which can be seen in './data/inter_idx.pkl' 
-  residue_feature: # The residue-level esm features of your test proteins. The details can be found in later sections.
-  pdb_points: # The coordinate file of proteins, generated by `./DataProcess/generate_points.py`. The details can be found in later sections.
-
-train:
-  name: train
-  pid_list_file: ./data/mf_train_used_pid_list.pkl
-  pid_go_file: ./data/mf_train_go.txt
-  pid_pdb_file: ./data/PDB/graph_feature/mf_train_whole_pdb_part{}.pkl
-  train_file_count: 7
-  interpro_file: ./data/mf_train_interpro.pkl # The path of interpro file including training proteins, which is generated automatically during training.
-
-valid:
-  name: valid
-  pid_list_file: ./data/mf_test1_used_pid_list.pkl
-  pid_go_file: ./data/mf_test1_go.txt
-  pid_pdb_file: ./data/PDB/graph_feature/mf_test1_whole_pdb_part0.pkl
-  interpro_file: ./data/mf_test1_interpro.pkl # The path of interpro file including validated proteins, which is generated automatically during training.
-  
-test:
-  name: test
-  pid_list_file: ./data/mf_test2_used_pid_list.pkl # The test protein list ('.pkl' format).
-  pid_go_file: ./data/mf_test2_go.txt # The test proteins GO (for evaluation if provided).
-  pid_pdb_file: ./data/PDB/graph_feature/mf_test2_whole_pdb_part0.pkl # The structure graphs of test proteins.
-  interpro_file: ./data/mf_test2_interpro.pkl # The path of interpro file including test proteins, which is generated automatically during training.
+```bash
+python DPFunc_demo_pipeline/scripts/run_dpfunc.py train \
+  --workspace /path/to/demo_workspace_mf \
+  --ontology mf \
+  --gpu 0 \
+  --epoch 15 \
+  --pre-name my_model
 ```
 
-Notably, to generate `pid_pdb_file`, you need complete the following steps:
-1. For `pid_pdb_file`:
-
-    1.1 You should place your PDB files of proteins (5NTC_RAT.pdb, 6PGL_SCHPO.pdb, ...) at `./data/PDB/PDB_folder/`.
-
-    1.2 Use `generate_points.py` to generate the coordinate files of proteins, the result file will be placed at `./data/pdb_points.pkl`.
-    ```
-    python ./DataProcess/generate_points.py -i ./data/mf_test2_used_pid_list.pkl -o pdb_points
-    ```
-    
-    1.3 Use pre-trained language model (`esm` or other PLLMs) to generate the residue features. As the number of proteins may be too large, we suggest that users should partition the whole data into several parts and an additional map file `map_pid_esm_file` (`dict` format) is also needed to map the part id of each proteins.
-    
-    1.4 Based on `pdb_points.pkl`, `map_pid_esm_file.pkl`, and `pdb_residue_esm_embeddings_part{part_id}.pkl`, using `process_graph.py` to generate the structure graphs for test data. (Note: change the paths in the file)
-    ```
-    python ./DataProcess/process_graph.py -d mf
-    ```
-
-### Train our model on our or your own data
-If you have prepared the data, you can train our model on your data as follows (Ensure that your configure file is right):
-```
-python DPFunc_main.py -d mf -n 0 -e 15 -p temp_model
-
-arguments:
-    -d: the ontology (mf/cc/bp)
-    -n: gpu number (default: 0)
-    -e: training epoch (default: 15)
-    -p: the prefix of results (default: temp_model)
+```bash
+python DPFunc_demo_pipeline/scripts/run_dpfunc.py predict \
+  --workspace /path/to/demo_workspace_mf \
+  --ontology mf \
+  --gpu 0 \
+  --pre-name DPFunc
 ```
 
-### Test
-If you want to test proteins on trained models, you can easily comment out the training and validation code, as shown in `DPFunc_pred.py`
-### Model Download
-You can also download our trained model from: https://drive.google.com/file/d/1V0VTFTiB29ilbAIOZn0okBQWPlbOI3wN/view?usp=drive_link
+## Notes
+- Core model entry scripts remain unchanged: `DPFunc_main.py`, `DPFunc_pred.py`.
 
 ## Contact
-Please feel free to contact us for any further questions.
-- Wenkang Wang wangwk@csu.edu.cn
-- Min Li limin@mail.csu.edu.cn
+- Wenkang Wang: wangwk@csu.edu.cn
+- Min Li: limin@mail.csu.edu.cn
 
-## References
-Wang W, Shuai Y, Zeng M, et al. DPFunc: accurately predicting protein function via deep learning with domain-guided structure information[J]. Nature Communications, 2025, 16(1): 70.
-
+## Citation
+Wang W, Shuai Y, Zeng M, et al. DPFunc: accurately predicting protein function via deep learning with domain-guided structure information. *Nature Communications*, 2025, 16(1): 70.
